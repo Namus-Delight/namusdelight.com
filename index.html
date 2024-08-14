@@ -36,12 +36,12 @@
             color: #007bff;
             margin-bottom: 2rem;
         }
-        .subscribe-form {
+        .phone-form {
             display: flex;
             justify-content: center;
             margin-bottom: 1rem;
         }
-        input[type="phone"] {
+        input[type="tel"] {
             padding: 0.5rem;
             font-size: 1rem;
             border: 1px solid #ccc;
@@ -60,7 +60,6 @@
         button:hover {
             background-color: #0056b3;
         }
-
         #message {
             margin-top: 1rem;
             font-weight: bold;
@@ -71,21 +70,34 @@
     <div class="container">
         <h1>Namu's Delight</h1>
         <p>We're working hard to bring you something amazing. Stay tuned!</p>
-        <form id="subscribe-form" class="subscribe-form">
-            <input type="text" id="phone" placeholder="Enter your phone number">
-            <button>Notify Me</button>
+        <form id="phone-form" class="phone-form">
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+            <button type="submit">Notify Me</button>
         </form>
-        <p>Be the first to know when we launch new products.</p>
+        <p>Be the first to know when we launch.</p>
         <div id="message"></div>
     </div>
 
     <script>
-      window.onload = function () {
+
+        // Phone number validation
+        function validatePhoneNumber(phone) {
+            const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+            return phoneRegex.test(phone);
+        }
+
+        window.onload = function () {
             // Form submission
-            document.getElementById('subscribe-form').addEventListener('submit', function(e) {
+            document.getElementById('phone-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 var phone = document.getElementById('phone').value;
-                var url = 'https://script.google.com/macros/s/AKfycbwi6go3hMubVCMms_zaltthd1_6_mFeavhc-w6EoExarb_sFr2-bacXZeVWBj6Gl4lZVw/exec'; // Replace with your actual web app URL
+                
+                if (!validatePhoneNumber(phone)) {
+                    document.getElementById('message').textContent = 'Please enter a valid phone number.';
+                    return;
+                }
+
+                var url = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL'; // Replace with your actual web app URL
 
                 fetch(url, {
                     method: 'POST',
